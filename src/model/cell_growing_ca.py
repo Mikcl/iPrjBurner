@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 
-class CellCA(nn.Module):
+class CellGrowingCA(nn.Module):
     def __init__(self, channels, dim=128):
         super().__init__()
         self.net = nn.Sequential(
