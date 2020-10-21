@@ -23,10 +23,15 @@ print('torch shape', tT.shape)
 # USE simple net like they did and try it. 
 
 # TODO TODO TODO TODO 
+h, w = 10 ,10
+seed = np.zeros([h, w, 4], np.float32)
+seed[h//2, w//2, 3:] = 1.0
+x0 = np.repeat(seed[None, ...], 5, 0)
 
-
-
-
+print ('X0 Shape', x0.shape)
+seedT = torch.Tensor(seed)
+seedT = seedT.permute(2, 0, 1)
+print ('SEED T SHAPE', seedT.shape)
 
 def get_living_mask(x):
   alpha = x[:, :, :, 3:4]
