@@ -12,6 +12,4 @@ class GrowingCA(nn.Module):
         iter_n = torch.randint(min_steps,max_steps, (1,))
         for _ in torch.range(0,iter_n[0]):
             x = self.model(x)
-
-        x = x[:,:4,:,:] # RGB A
         return x
