@@ -56,7 +56,7 @@ class Cell(nn.Module):
         dx = self.model(y)*step_size
 
         update_mask = torch.FloatTensor(*list(x[:,:1,:,:].size())).uniform_(0.0, 1.0) <= self.fire_rate
-        x = x + (dx * (update_mask).type(torch.FloatTensor)).to(device)
+        x = x + (dx * update_mask.type(torch.FloatTensor).to(device))
 
         post_life_mask = get_living_mask(x)
         life_mask = pre_life_mask & post_life_mask
