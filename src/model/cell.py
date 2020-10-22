@@ -5,6 +5,12 @@ from torch import nn
 CHANNEL_N = 16          # Number of CA state channels
 CELL_FIRE_RATE = 0.5    # How often cell fires.
 
+if torch.cuda.is_available():  
+  dev = "cuda:0" 
+else:  
+  dev = "cpu"
+device = torch.device(dev) 
+
 
 def get_living_mask(x):
   alpha = x[:, 3:4, :, :]
@@ -32,12 +38,12 @@ class Cell(nn.Module):
         x_direction =  c*dx-s*dy
         y_direction =  s*dx+c*dy
         
-        i_kernel = identify[None, None, ...].repeat(self.channel_n, 1, 1, 1)  # TODO this will always be the same.
+        i_kernel = identify[None, None, ...].repeat(self.channel_n, 1, 1, 1).to(device)  # TODO this will always be the same.
         i_v = nn.functional.conv2d(x, i_kernel, padding=1, groups=self.channel_n)
 
-        x_kernel = x_direction[None, None, ...].repeat(self.channel_n, 1, 1, 1)
+        x_kernel = x_direction[None, None, ...].repeat(self.channel_n, 1, 1, 1).to(device)
         x_v = nn.functional.conv2d(x, x_kernel, padding=1, groups=self.channel_n)
-        y_kernel = y_direction[None, None, ...].repeat(self.channel_n, 1, 1, 1)
+        y_kernel = y_direction[None, None, ...].repeat(self.channel_n, 1, 1, 1).to(device)
         y_v = nn.functional.conv2d(x, y_kernel, padding=1, groups=self.channel_n)
 
         stacked_image = torch.cat([i_v, x_v, y_v], 1)
