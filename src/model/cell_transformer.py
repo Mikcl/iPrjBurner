@@ -33,7 +33,7 @@ class TransformerCell(nn.Module):
     def forward(self, x, mask = None):
         # img (1 {or b} ,48,72,72)
 
-        x = self.patch_to_embedding(x)
+        # x = self.patch_to_embedding(x)
         b, n, _ = x.shape
 
         cls_tokens = repeat(self.cls_token, '() n d -> b n d', b = b)
