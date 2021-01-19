@@ -13,3 +13,11 @@ class GrowingCA(nn.Module):
         for _ in torch.range(0,iter_n[0]):
             x = self.model(x)
         return x
+
+class AttentionCA(nn.Module):
+    def __init__(self, t):
+        super().__init__()
+        self.model = t
+    def forward(self, x):
+        x = self.model(x)
+        return x
